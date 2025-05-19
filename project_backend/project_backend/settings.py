@@ -56,6 +56,10 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOWED_ORIGINS = [
+    "https://blue-field-0545d4500.6.azurestaticapps.net",
+]
 ROOT_URLCONF = 'project_backend.urls'
 
 TEMPLATES = [
