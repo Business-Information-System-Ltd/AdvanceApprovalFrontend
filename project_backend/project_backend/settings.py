@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-u44bl5r2n&*0@#ns1i2i+%m274-m)m0p@-#o4y6+536%z1854$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['approvalrequestbackend-a7h8f9aqdcg0dxez.eastasia-01.azurewebsites.net']
 
 
 # Application definition
@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'api.apps.ApiConfig',
     'corsheaders',
-    'django_filters'
+    'django_filters',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -54,7 +55,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
