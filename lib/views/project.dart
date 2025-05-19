@@ -60,7 +60,7 @@ class _ProjectInfoState extends State<ProjectInfo> {
       setState(() {
         projectData = projects;
         filterData = List.from(projectData);
-        print("Fetched Projects: $projectData"); // Log fetched projects
+        print("Fetched Projects: $projectData"); 
         print("Filter Data: $filterData");
         _updatePagination();
       });
@@ -459,7 +459,6 @@ class _ProjectInfoState extends State<ProjectInfo> {
             icon: const Icon(Icons.arrow_forward),
           ),
           const SizedBox(width: 20),
-          // Rows per page selector
           DropdownButton<int>(
             value: rowsPerPage,
             items: [10, 15, 20].map((int value) {
@@ -473,7 +472,7 @@ class _ProjectInfoState extends State<ProjectInfo> {
                 setState(() {
                   rowsPerPage = value;
                   currentPage =
-                      1; // Reset to page 1 when rows per page is changed
+                      1; 
                   _updatePagination();
                 });
               }
@@ -494,7 +493,7 @@ class _ProjectInfoState extends State<ProjectInfo> {
 
   void _removeFilter(String value) {
     setState(() {
-      selectedFilters.remove(value); // Remove the selected value
+      selectedFilters.remove(value); 
     });
   }
 
@@ -538,7 +537,6 @@ class _ProjectInfoState extends State<ProjectInfo> {
 
   Future<void> exportToCSV() async {
     try {
-      // Convert the projectData list to a list of lists (CSV rows)
       List<List<dynamic>> csvData = [];
 
       //Add the header row
@@ -554,7 +552,6 @@ class _ProjectInfoState extends State<ProjectInfo> {
         "Budget Details"
       ]);
 
-      //Add the data rows
       for (var project in projectData) {
         csvData.add([
           DateFormat('yyyy-MM-dd').format(project.date),
@@ -605,14 +602,12 @@ class _ProjectInfoState extends State<ProjectInfo> {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
-          //mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             const Text(
               "Project Information",
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             ),
             Row(
-              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 20),
@@ -716,18 +711,7 @@ class _ProjectInfoState extends State<ProjectInfo> {
                 // 🏷️ Wrap for Filters
 
                 const SizedBox(
-                    width: 10), // Space between search bar and filters button
-                // Space between search bar and filters button
-
-                // IconButton(
-                // IconButton(
-                //   icon: const Icon(Icons.more_vert),
-                //   // label: const Text("Filters"),
-                //   // label: const Text("Filters"),
-                //   onPressed: _openAdvancedSearchDialog,
-                // ),
-
-                // SizedBox(width: MediaQuery.of(context).size.width / 3.3),
+                    width: 10), 
                 const SizedBox(width: 10),
                 Container(
                   padding:
@@ -735,7 +719,6 @@ class _ProjectInfoState extends State<ProjectInfo> {
                   decoration: BoxDecoration(
                     color: const Color.fromARGB(255, 150, 212, 234),
                     borderRadius: BorderRadius.circular(10),
-                    // border: Border.all(color: Colors.greenAccent),
                   ),
                   child: Row(
                     children: [
@@ -1063,17 +1046,14 @@ class _EditProjectState extends State<EditProject> {
         departmentName:
             _selectedDepartmentName ?? widget.projectData.departmentName,
         requestable: widget.projectData.requestable,
-        // budgetDetails: chooseBudgetCodes,
         budgetDetails: chooseBudgetCodes,
       );
       try {
         await ApiService().updateProjectInfo(updatedProject);
-        // for (var budget in chooseBudgetCodes) {
-        //   await ApiService().updateProjectBudget(updatedProject, budget.id);
-        // }
+       
         widget.onProjectUpdated();
 
-        Navigator.pop(context); // Close the edit form
+        Navigator.pop(context); 
         _fetchData();
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Project updated successfully!")),
@@ -1157,7 +1137,6 @@ class _EditProjectState extends State<EditProject> {
                                 onSelectChanged: (selected) {
                                   if (selected != null && selected) {
                                     if (isSelected) {
-                                      // Show error message if the budget code is already selected
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         const SnackBar(
@@ -1578,8 +1557,7 @@ class _AdvancedSearchDialogState extends State<AdvancedSearchDialog> {
 
 class ProjectDetailPage extends StatefulWidget {
   final Projects projectData;
-  // final List<Map<String, dynamic>> selectedBudgetCodes;
-  //final String selectedBudgetCode;
+ 
 
   const ProjectDetailPage({
     super.key,
@@ -1598,16 +1576,7 @@ class _ProjectDetailState extends State<ProjectDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    // // ignore: unused_local_variable
-    // List<Budget> BudgetDetails = [];
-    // if (widget.projectData["budgetDetails"] != null) {
-    //   if (widget.projectData["BudgetDetails"] is String) {
-    //     budgetDetails = _parseBudgetDetails(widget.projectData["BudgetDetails"]);
-    //   } else if (widget.projectData["BudgetDetails"] is List) {
-    //     budgetDetails =
-    //         List<Map<String, String>>.from(widget.projectData["BudgetDetails"]);
-    //   }
-    // }
+   
 
     return Scaffold(
       appBar: AppBar(
@@ -1753,11 +1722,10 @@ Widget _buildTableCell(String text, {bool isHeader = false}) {
 
 List<Map<String, String>> _parseBudgetDetails(String budgetDetails) {
   try {
-    // Replace single quotes with double quotes for JSON parsing
     String formattedString = budgetDetails.replaceAll("'", '"');
-    // Parse the JSON string into a List of Maps
+   
     List<dynamic> parsedList = jsonDecode(formattedString);
-    // Convert to List<Map<String, String>>
+  
     return parsedList.map((item) => Map<String, String>.from(item)).toList();
   } catch (e) {
     print("Error parsing BudgetDetails: $e");

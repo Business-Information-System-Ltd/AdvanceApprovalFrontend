@@ -197,39 +197,10 @@ class _EntryFormState extends State<EntryForm> {
     });
   }
 
-// Future<void> _initializeProjectCode() async {
-//   SharedPreferences prefs = await SharedPreferences.getInstance();
-//   setState(() {
-//     lastProjectNumber = prefs.getInt('lastProjectNumber') ?? 0;
-//     projectController.text = _generateProjectCode(lastProjectNumber + 1);
-//     print('Retrieved lastProjectNumber: $lastProjectNumber');
-//   });
-// }
 
-// String _generateProjectCode(int number) {
-//   return 'PRJ-000-${number.toString().padLeft(3, '0')}';
-// }
-
-// Future<void> _saveLastProjectNumber() async {
-//   SharedPreferences prefs = await SharedPreferences.getInstance();
-//   await prefs.setInt('lastProjectNumber', lastProjectNumber);
-//   print('Saved lastProjectNumber: $lastProjectNumber');
-// }
-//  Future<int> generateProjectID() async {
-//     List<Projects> existingProjects = await ApiService().fetchProjectInfoData();
-
-//     if (existingProjects.isEmpty) {
-//       return 1; // Start from 1 if no project exists
-//     }
-
-//     // Find the highest existing ID
-//     int maxId =
-//         existingProjects.map((b) => b.id).reduce((a, b) => a > b ? a : b);
-//     return maxId + 1;
-//   }
   Future<String> fetchNextProjectCode() async {
     final response = await http
-        .get(Uri.parse('http://127.0.0.1:8000/api/projects/next-code/'));
+        .get(Uri.parse('https://approvalrequestbackend-a7h8f9aqdcg0dxez.eastasia-01.azurewebsites.net/api/projects/next-code/'));
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
@@ -246,7 +217,6 @@ class _EntryFormState extends State<EntryForm> {
         projectController.text = nextCode;
       });
     } catch (error) {
-      // Handle error appropriately.
       print('Error fetching project code: $error');
     }
   }
@@ -260,10 +230,10 @@ class _EntryFormState extends State<EntryForm> {
     List<Projects> existingProjects = await apiService.fetchProjectInfoData();
 
     if (existingProjects.isEmpty) {
-      return 1; // Start from 1 if no budget exists
+      return 1; 
     }
 
-    // Find the highest existing ID
+  
     int maxId =
         existingProjects.map((b) => b.id).reduce((a, b) => a > b ? a : b);
     return maxId + 1;
@@ -276,7 +246,6 @@ class _EntryFormState extends State<EntryForm> {
     setState(() => _isSubmitting = true);
 
     try {
-      // Validate department selection
       if (_selectedDepartmentId == null || _selectedDepartmentName == null) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Please select a department")),
@@ -285,7 +254,6 @@ class _EntryFormState extends State<EntryForm> {
       }
       int nextID= await generateProjectCodeID();
 
-      // Create project object
       Projects newProject = Projects(
         id: nextID,
         date: DateFormat('yyyy-MM-dd').parse(dateController.text),
@@ -307,10 +275,8 @@ class _EntryFormState extends State<EntryForm> {
       }
        Navigator.pop(context, true);
 
-      // Call Logic Apps
       await _callLogicApps(newProject);
 
-      // Show success message
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text( "Project created successfully!"
@@ -319,7 +285,6 @@ class _EntryFormState extends State<EntryForm> {
 
       );
 
-      // Clear form and generate new project code
       _clearText();
       
     } catch (e) {
@@ -384,7 +349,7 @@ class _EntryFormState extends State<EntryForm> {
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   color: const Color.fromARGB(255, 103, 207, 177),
-                  borderRadius: BorderRadius.circular(15), // Rounded corners
+                  borderRadius: BorderRadius.circular(15), 
                 ),
                 child: Form(
                     key: _formkey,
@@ -540,41 +505,7 @@ class _EntryFormState extends State<EntryForm> {
                                 child: const Text("Add Budget Code"),
                               ),
                               const SizedBox(height: 10),
-                              // Container(
-                              //   height: MediaQuery.of(context).size.height * 0.3,
-                              //   child: SingleChildScrollView(
-                              //     scrollDirection: Axis.vertical,
-                              //     child: DataTable(
-                              //       border: TableBorder.all(),
-                              //       showCheckboxColumn: false,
-                              //       columns: const [
-                              //         DataColumn(label: Text("Budget Code")),
-                              //         DataColumn(label: Text("Description")),
-                              //         DataColumn(label: Text("Action")),
-                              //       ],
-                              //       rows: chooseBudgetCodes.map((budgetCode) {
-                              //         final index =
-                              //             chooseBudgetCodes.indexOf(budgetCode);
-                              //         return DataRow(
-                              //           cells: [
-                              //             DataCell(
-                              //                 Text(budgetCode.BudgetCode)),
-                              //             DataCell(
-                              //                 Text(budgetCode.Description)),
-                              //             DataCell(
-                              //               IconButton(
-                              //                 onPressed: () {
-                              //                   _deleteBudgetCode(index);
-                              //                 },
-                              //                 icon: const Icon(Icons.delete),
-                              //               ),
-                              //             ),
-                              //           ],
-                              //         );
-                              //       }).toList(),
-                              //     ),
-                              //   ),
-                              // ),
+                             
                               Container(
                                 height:
                                     MediaQuery.of(context).size.height * 0.3,
